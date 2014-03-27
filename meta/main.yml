@@ -1,0 +1,17 @@
+---
+galaxy_info:
+  author: Brian Coca
+  description: Installs and configures Selenium server in any of 3 modes (standalone,hub or node)
+  company:
+  license: GPLv2
+  min_ansible_version: 1.5
+  platforms:
+    - name: Ubuntu
+      versions:
+        - precise
+        - saucy
+  categories:
+    - system
+    - web
+dependencies:
+    - briancoca.oracle_java7
