@@ -16,23 +16,27 @@ This role requires the java, currently to supply this it depends on the oracle_j
 Role Variables
 --------------
 
-# info for downloading seleinum verion
-download_url: http://selenium.googlecode.com/files/{{jar_file}}
-jar_file: selenium-server-standalone-{{server_version}}.jar
-server_version: 2.39.0
+Info for downloading seleinum verion
 
-# roles can be: standalone, hub or node
-sel_role: standalone
+    download_url: http://selenium.googlecode.com/files/{{jar_file}}
+    jar_file: selenium-server-standalone-{{server_version}}.jar
+    server_version: 2.39.0
 
-##### optional vars #####
-# uri for slaves to find hub server
-hub: ''
-# jvm settings
-java_opts: ''
-# extra arguments to selenium jar
-extra_args: ''
-# specific port for selemium server (uses selenium role default otherwise)
-port: ''
+Roles can be: standalone, hub or node
+
+    sel_role: standalone
+
+Uri for slaves to find hub server
+    hub: ''
+
+Jvm settings
+    java_opts: ''
+
+Extra arguments to selenium jar
+    extra_args: ''
+
+Specific port for selemium server (uses selenium role default otherwise)
+    port: ''
 
 
 
