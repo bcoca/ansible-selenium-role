@@ -1,11 +1,6 @@
 ansible-selenium-role
 =====================
 
-role to install and configure the selenium server
-=======
-Role Name
-========
-
 This role installs the selenium server
 
 Requirements
