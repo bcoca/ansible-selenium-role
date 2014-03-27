@@ -5,7 +5,7 @@
   get_url: url={{download_url}}  dest={{cur_dir}}/{{jar_file}} force=no
 
 - name: Copy selenium into place
-  copy: src={{jar_file}}  dest=/usr/local/lib/ owner=root group=root mode=644
+  copy: src={{jar_file}}  dest=/usr/local/lib/{{jar_file}} owner=root group=root mode=644
 
 - name: Install Config
   template: src=defaults.j2 dest=/etc/default/selenium_{{sel_role}} owner=root group=root mode=644
