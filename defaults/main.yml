@@ -1,7 +1,9 @@
 ---
-download_url: http://selenium.googlecode.com/files/{{jar_file}}
+server_version_major: 2.44
+server_version: "{{server_version_major}}.0"
+download_server: "http://selenium-release.storage.googleapis.com/index.html?path={{server_version_major}}"
 jar_file: selenium-server-standalone-{{server_version}}.jar
-server_version: 2.39.0
+download_url: "{{download_server}}/{{jar_file}}"
 
 sel_role: standalone
 
