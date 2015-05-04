@@ -51,7 +51,7 @@ JAR_ARGS=${JAR_ARGS:-""}
 JAVA_OPTS=${JAVA_OPTS:-""}
 
 
-SYSTEM_JAVA=$(/usr/sbin/update-alternatives --query java|grep Value|cut -f 2 -d":")
+SYSTEM_JAVA=$(update-alternatives --query java|grep Value|cut -f 2 -d":")
 if [ -z "$JAVA_HOME" -a ! -z "${SYSTEM_JAVA}" ]; then
     JAVA_HOME=$(dirname "${SYSTEM_JAVA}")
     JAVA_HOME=${JAVA_HOME%/bin}
