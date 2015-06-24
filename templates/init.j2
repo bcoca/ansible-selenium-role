@@ -83,7 +83,7 @@ start)
     fi
     install -o ${SE_USER} -g ${SE_GROUP} -d ${JVM_TMP}
 
-    if [ ! -z "${ROLE}" ]; then
+    if [ ! -z "${ROLE}" ] && [ "${ROLE}" != "standalone" ]; then
         JAR_ARGS="-role ${ROLE}"
     fi
     if [ ! -z "${HUB}" ]; then
