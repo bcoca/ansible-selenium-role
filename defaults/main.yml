@@ -1,9 +1,8 @@
 ---
 server_version_major: 2.44
 server_version: "{{server_version_major}}.0"
-download_server: "http://selenium-release.storage.googleapis.com/index.html?path={{server_version_major}}"
 jar_file: selenium-server-standalone-{{server_version}}.jar
-download_url: "{{download_server}}/{{jar_file}}"
+download_url: "http://selenium-release.storage.googleapis.com/{{server_version_major}}/{{jar_file}}"
 
 sel_role: standalone
 
