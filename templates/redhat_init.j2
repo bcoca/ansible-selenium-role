@@ -29,7 +29,7 @@ if [ ! -z "${ROLE}" ]; then
         JAR_ARGS="-role ${ROLE}"
 fi
 if [ ! -z "${HUB}" ]; then
-    JAR_ARGS="${JAR_ARGS} -hub ${HUB}"
+    JAR_ARGS="${JAR_ARGS} -hub ${HUB} -host {{inventory_hostname}}"
 fi
 
 if [ ! -z "${PORT}" ]; then
