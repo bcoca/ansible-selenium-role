@@ -1,0 +1,21 @@
+---
+
+- name: Copy selenium into place
+  copy: src={{jar_file}}  dest={{ selenium_dir }}/selenium-server.jar owner=root group=root mode=644
+
+- name: Install Config
+  template: src=defaults.j2 dest=/etc/default/se_{{sel_role}} owner=root group=root mode=644
+  tags: ['config']
+  notify: selenium_restarted
+
+- name: Install service file
+  template: src=redhat_init.j2 dest=/etc/init.d/se_{{sel_role}} owner=root group=root mode=755
+  tags: ['config']
+  notify: selenium_restarted
+
+- name: Install browser
+  yum: name={{item}}
+  with_items:
+    - xorg-x11-server-Xvfb
+    - firefox
+  when:  sel_role != 'hub'
