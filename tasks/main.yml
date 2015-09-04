@@ -15,5 +15,5 @@
 - include: debian.yml
   when: ansible_os_family == 'Debian'
 
-- include: debian.yml
+- include: windows.yml
   when: ansible_os_family == 'Windows'
