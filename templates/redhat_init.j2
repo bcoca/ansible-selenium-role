@@ -1,0 +1,76 @@
+#!/bin/env bash
+#
+# based on https://stomp.colorado.edu/blog/blog/2011/12/05/on-selenium-grid-and-init-scripts/
+
+# chkconfig: 35 66 36
+# description: Selenium
+# pidfile: /var/run/selenium.pid
+
+. /etc/init.d/functions
+
+USER="root"
+GROUP="root"
+JAVA_CMD="java -jar"
+
+NAME=se_{{sel_role}}
+DEFAULT="/etc/default/${NAME}"
+LOCK_FILE="/var/lock/subsys/${NAME}"
+PID_FILE="/var/run/${NAME}.pid"
+LOG_FILE="/var/log/selenium/${NAME}.log"
+ERROR_LOG="/var/log/selenium/error.log"
+REDIRECT="1>>${LOG_FILE} 2>>${ERROR_LOG} &"
+EXEC="${JAVA_CMD}"
+
+if [ -f "${DEFAULT}" ]; then
+    . "${DEFAULT}"
+fi
+
+if [ ! -z "${ROLE}" ]; then
+        JAR_ARGS="-role ${ROLE}"
+fi
+if [ ! -z "${HUB}" ]; then
+    JAR_ARGS="${JAR_ARGS} -hub ${HUB} -host {{inventory_hostname}}"
+fi
+
+if [ ! -z "${PORT}" ]; then
+    JAR_ARGS="${JAR_ARGS} -port ${PORT}"
+fi
+
+EXEC_REDIRECT="${JAVA_CMD} {{ selenium_dir }}/selenium-server.jar ${JAR_ARGS} ${REDIRECT}"
+
+case "$1" in
+    start)
+        if [ ! -f ${LOG_FILE} ]; then
+            mkdir -m 644 $(dirname ${LOG_FILE})
+            chown ${USER}:${GROUP} $(dirname ${LOG_FILE})
+            touch ${LOG_FILE}
+        fi
+
+        echo -n "Starting ${NAME}: " | tee -a ${LOG_FILE}
+        daemon --user ${USER} --pidfile ${PID_FILE} ${EXEC_REDIRECT}
+        RETVAL=$?
+        echo | tee -a ${LOG_FILE}
+        if [ ${RETVAL} -eq 0 ]; then
+            touch ${LOCK_FILE}
+            PID="$(pgrep -f "$(echo ${EXEC})")"
+            echo ${PID} > ${PID_FILE}
+        fi
+        ;;
+    status)
+        status -p ${PID_FILE} ${NAME}
+        ;;
+    stop)
+        echo -n "Stopping ${NAME}: " | tee -a ${LOG_FILE}
+        killproc -p ${PID_FILE} ${NAME}
+        RETVAL=$?
+        echo | tee -a ${LOG_FILE}
+        [ $RETVAL = 0 ] && rm -f ${LOCK_FILE} ${PID_FILE}
+        ;;
+    restart)
+        $0 stop
+        $0 start
+        ;;
+    *)
+        echo "Usage: $0 {start|stop|status|restart}"
+        exit 1
+esac

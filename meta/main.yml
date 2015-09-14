@@ -10,8 +10,10 @@ galaxy_info:
       versions:
         - precise
         - saucy
+    - name: EL
+      versions:
+        - 6
   categories:
     - system
     - web
 dependencies:
-    - briancoca.oracle_java7

@@ -1,7 +1,10 @@
 
 ---
 - name: selenium_started
-  service: name=selenium_{{sel_role}} state=started enabled=yes
+  service: name=se_{{sel_role}} state=started enabled=yes
 
 - name: selenium_reload
-  service: name=selenium_{{sel_role}} state=reloaded
+  service: name=se_{{sel_role}} state=reloaded
+
+- name: selenium_restarted
+  service: name=se_{{sel_role}} state=restarted
