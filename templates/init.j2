@@ -20,6 +20,7 @@ DESC="Selenium test server {{sel_role}}"
 DEFAULT="/etc/default/${NAME}"
 SE_PID="/var/run/${NAME}.pid"
 JVM_TMP="/var/tmp/${NAME}_app"
+LOG_FILE="/var/log/${NAME}.log"
 
 if [ `id -u` -ne 0 ]; then
 # no user change?
@@ -83,6 +84,7 @@ start)
     fi
     install -o ${SE_USER} -g ${SE_GROUP} -d ${JVM_TMP}
 
+    JAR_ARGS="${JAR_ARGS} -log ${LOG_FILE}"
     if [ ! -z "${ROLE}" ] && [ "${ROLE}" != "standalone" ]; then
         JAR_ARGS="-role ${ROLE}"
     fi
@@ -100,8 +102,9 @@ start)
                         --make-pidfile \
                         --user "${SE_USER}" \
                         --group "${SE_GROUP}" \
-                        --exec ${JAVA_HOME}/bin/java -- ${JAVA_OPTS} -jar /usr/local/lib/{{jar_file}} ${JAR_ARGS} ${EXTRA_ARGS}  2>&1 \
-        | logger -t "${NAME}"
+                        --exec ${JAVA_HOME}/bin/java -- ${JAVA_OPTS} -jar /usr/local/lib/{{jar_file}} ${JAR_ARGS} ${EXTRA_ARGS}
+    sleep 1
+    $0 status
 ;;
 stop)
     log_daemon_msg "Stopping ${DESC}" "${NAME}"
@@ -148,4 +151,4 @@ force-reload|reload)
     exit 1
 ;;
 esac
-exit 0
+exit $?
